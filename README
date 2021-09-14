@@ -1,0 +1,68 @@
+# README:
+
+## Setup:
+
+Clone the repo.
+
+### Install docker & docker-compose
+
+Docker - https://docs.docker.com/desktop/mac/install/ 
+
+Docker compose is included in the docker installation on Mac, on other systems please check https://docs.docker.com/compose/install/
+
+## Build and run:
+
+```
+> cd SNYK_EXERCISE
+```
+
+```
+> docker-compose up -d —build
+```
+
+Verify that both the api container and Redis cache container are running
+
+```
+> docker ps 
+
+Should see two containers running, for example: 
+
+CONTAINER ID   IMAGE               COMMAND                  CREATED          STATUS          PORTS                                       NAMES
+2714abc84deb   snyk_exercise_api   "python run.py"          20 minutes ago   Up 20 minutes   0.0.0.0:5000->5000/tcp, :::5000->5000/tcp   api-container
+254c65b0d49b   redis               "docker-entrypoint.s…"   6 hours ago      Up 6 hours      0.0.0.0:6379->6379/tcp, :::6379->6379/tcp   redis-container
+```
+
+## Test:
+
+### unit tests
+
+```
+> python test_app.py
+```
+
+### Integration tests
+
+Due to lack of time, integration tests are not automated. 
+To test, I used postman (https://www.postman.com) to make API calls.
+
+To call the endpoint. replace <package_name> and <version_name>:
+
+```
+> http://127.0.0.1:5000/dependencies?package=<package_name>&version=<version_name>
+
+```
+
+For integration tests, I verified the following: 
+1. Results are correct, (if depedencies are returned, make sure that they are the expceted results.)
+2. Calling the API multiple times with the same parameters gets a cache hit (can see by response time) 
+3. Calling the API with invalid parameters returns correct results.
+4. Calling the API with package name/version that does not exsits returns error and does not crash.
+
+Examples of tests that I ran manually (package, version):
+5. express, latest
+6. snyk, 1.709.0
+7. trucolor, latest
+8. not-a-package, latest
+9. _ , latest
+10. package
+
