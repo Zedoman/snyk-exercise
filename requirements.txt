@@ -13,7 +13,7 @@ itsdangerous==2.0.1
 Jinja2==3.0.1
 lazy-object-proxy==1.6.0
 MarkupSafe==2.0.1
-marshmallow==3.13.0
+marshmallow==3.26.2
 mccabe==0.6.1
 platformdirs==2.3.0
 pylint==2.10.2
